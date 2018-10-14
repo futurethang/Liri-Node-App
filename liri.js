@@ -1,4 +1,4 @@
-// FILE REQUIRES
+// REQUIRES
 var fs = require("fs");
 var moment = require('moment');
 var dotenv = require('dotenv').config();
@@ -18,13 +18,18 @@ function spotifySearch(searchTerm) {
       return console.log('Error occurred: ' + err);
     }
     if (data.tracks.items[apiResult] !== undefined) {
+      // Get the song title:
       var songTitle = data.tracks.items[apiResult]['name'];
+      // Get the name of the Artist:
       var artist = data.tracks.items[apiResult]['artists'][0]['name'];
+      // Get the name of the Album:
       var fromAlbum = data.tracks.items[apiResult]['album']['name'];
+      // Get the link to the song preview:
       var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
+      // Concatenate the data for log and display:
       var songLog = 'Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview;
       console.log(songLog);
-      fs.appendFile("log.txt", '\n=================\n' + songLog, function (err) { });
+      updateLogFile(songLog);
       iterateResults('spotify');
     } else { console.log("There are no more results to show you!") };
   });
@@ -36,12 +41,16 @@ function concertSearch(searchTerm) {
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
     if (error) { console.log("There are no results to show you!") };
     if (JSON.parse(body)[apiResult] !== undefined) {
+      // Get the Venue Name:
       var venue = JSON.parse(body)[apiResult]['venue']['name'];
+      // Get the City Location:
       var location = JSON.parse(body)[apiResult]['venue']['city'];
+      // Get the Date of the concert:
       var date = JSON.parse(body)[apiResult]['datetime'];
+      // Concatenate the string for display and log.txt:
       var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
       console.log(concertLog);
-      fs.appendFile("log.txt", '\n=================\n' + concertLog, function (err) { });
+      updateLogFile(concertLog);
       iterateResults('concerts');
     } else { console.log("There are no more results to show you!") };
   });
@@ -73,11 +82,18 @@ function movieSearch(searchTerm) {
       movieLog += "\nStarring: " + JSON.parse(body).Actors
       // console.log(ratings);
       console.log(movieLog);
+      updateLogFile(movieLog);
     }
   });
 }
 
-function txtSearch(searchTerms) {}
+function txtSearch(searchTerms) { }
+
+function updateLogFile(logText) {
+  var timeStamp = moment().format('MM/DD/YYYY - HH:mm:ss:SSS');
+  var logBody = '\n\n' + timeStamp + ' =================\n' + logText;
+  fs.appendFile("log.txt", logBody, function (err) { });
+}
 
 // TAKE USER INPUTS
 // use Inquirer Package to offer list choices, send message, and then collect a string to search with
