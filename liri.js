@@ -20,7 +20,7 @@ function spotifySearch(searchTerm) {
     var fromAlbum = data.tracks.items[apiResult]['album']['name'];
     var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
     console.log(songTitle + '\n' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
-    iterateResults();
+    iterateResults('spotify');
   });
   // console.log("And your answers are:", answers);
 }
@@ -28,10 +28,11 @@ function spotifySearch(searchTerm) {
 function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
-    var venue = JSON.parse(body)[0]['venue']['name'];
-    var location = JSON.parse(body)[0]['venue']['city'];
-    var date = JSON.parse(body)[0]['datetime'];
+    var venue = JSON.parse(body)[apiResult]['venue']['name'];
+    var location = JSON.parse(body)[apiResult]['venue']['city'];
+    var date = JSON.parse(body)[apiResult]['datetime'];
     console.log('Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + date);
+    iterateResults('concerts');
   });
 }
 
@@ -120,14 +121,18 @@ inquirer.prompt([
   console.log(searchFunction + searchTerm);
 });
 
-function iterateResults() {
+// FUNTION TO RETURN THE NEXT SET OF RESULTS FROM LISTED API RETURNS
+function iterateResults(searchFunction) {
   inquirer.prompt([
     loadAnotherResult
   ]).then(function (data) {
     if (data.loadAnotherResult) {
-      console.log("iterate fires");
       apiResult += 1;
-      spotifySearch(searchTerm);
+      if (searchFunction === 'spotify') {
+        spotifySearch(searchTerm);
+      } else if (searchFunction === 'concerts') {
+        concertSearch(searchTerm);
+      }
     }
   });
   }
@@ -135,4 +140,6 @@ function iterateResults() {
   // ISSUES: 
   // DISPLAY CONCERT DATES IN A BETTER FORMAT
   // ALLOW ANOTHER INQUIRER TO SELECT NEW RESULTS - could I use api data to make a sleection list?
+  // RETURN ERROR MESSAGE IF ITERATOR RUNS OUT OF RESULTS TO DISPLAY
   // LOG SEARCHES TO A TXT
+  // 
