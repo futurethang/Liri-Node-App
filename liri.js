@@ -4,7 +4,9 @@ var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 var inquirer = require("inquirer");
+var request = require("request");
 
+// DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
 function spotifySearch(searchTerm) {
   spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
     if (err) {
@@ -14,6 +16,59 @@ function spotifySearch(searchTerm) {
     console.log(results);
   });
   console.log("And your answers are:", answers);
+}
+
+function concertSearch(searchTerm) {
+  console.log("concert search runs: " + searchTerm);
+  request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp"), function (error, response, body) {
+    console.log('error:', error); // Print the error if one occurred
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    console.log('body:', body); // Print the HTML for the Google homepage.
+    // if (error) { console.log("error") };
+    // // If the request is successful (i.e. if the response status code is 200)
+    // if (!error && response.statusCode === 200) {
+
+    //   // Parse the body of the site and recover just the imdbRating
+    //   // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    //   console.log(body);
+    //   console.log(response);
+    // }
+  }
+}
+
+function movieSearch(searchTerm) {
+  var queryUrl = "http://www.omdbapi.com/?t=" + searchTerm + "&y=&plot=short&apikey=trilogy";
+  console.log(queryUrl);
+  request(queryUrl, function (error, response, body) {
+    // If the request is successful
+    var movieInfo = '';
+    if (!error && response.statusCode === 200) {
+      // console.log(JSON.parse(body));
+      // console.log("Release Year: " + JSON.parse(body));
+      // Title of the movie.
+      movieInfo += JSON.parse(body).Title;
+      // Year the movie came out.
+      movieInfo += "\n"+JSON.parse(body).Year
+      // IMDB Rating of the movie.
+      movieInfo += "\nRated: "+JSON.parse(body).Rated
+      // Rotten Tomatoes Rating of the movie.
+      movieInfo += "\nRotten Tomatoes: "+JSON.parse(body).Ratings[1][1]
+      // Country where the movie was produced.
+      movieInfo += "\nMade in: "+JSON.parse(body).Country
+      // Language of the movie.
+      movieInfo += "\nLanguage: "+JSON.parse(body).Language
+      // Plot of the movie.
+      movieInfo += "\nPlot: "+JSON.parse(body).Plot
+      // Actors in the movie.
+      movieInfo += "\nStarring: " + JSON.parse(body).Actors
+      
+      console.log(movieInfo);
+    }
+  });
+}
+
+function txtSearch(searchTerms) {
+
 }
 
 // TAKE USER INPUTS
@@ -31,7 +86,7 @@ var functionTitle = "placeholder";
 var searchTerm = {
   type: "input",
   name: "searchTerm",
-  message: "What are you looking for?" // change text based on searchFunction selection
+  message: "What are you looking for?"
 }
 
 inquirer.prompt([
@@ -43,12 +98,15 @@ inquirer.prompt([
 
   switch (searchFunction) {
     case 'spotify song search':
+      console.log("song: " + searchTerm)
       spotifySearch(searchTerm);
       break;
     case 'search concerts':
+      console.log("artist: " + searchTerm)
       concertSearch(searchTerm);
       break;
     case 'search for movie':
+      console.log("movie: " + searchTerm)
       movieSearch(searchTerm);
       break;
     case 'search from .txt':
