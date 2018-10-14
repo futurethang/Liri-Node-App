@@ -1,4 +1,5 @@
 // FILE REQUIRES
+var fs = require("fs");
 var moment = require('moment');
 var dotenv = require('dotenv').config();
 var Spotify = require('node-spotify-api');
@@ -16,12 +17,16 @@ function spotifySearch(searchTerm) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    var songTitle = data.tracks.items[apiResult]['name'];
-    var artist = data.tracks.items[apiResult]['artists'][0]['name'];
-    var fromAlbum = data.tracks.items[apiResult]['album']['name'];
-    var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
-    console.log('Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
-    iterateResults('spotify');
+    if (data.tracks.items[apiResult] !== undefined) {
+      var songTitle = data.tracks.items[apiResult]['name'];
+      var artist = data.tracks.items[apiResult]['artists'][0]['name'];
+      var fromAlbum = data.tracks.items[apiResult]['album']['name'];
+      var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
+      var songLog = 'Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview;
+      console.log(songLog);
+      fs.appendFile("log.txt", '\n=================\n' + songLog, function (err) { });
+      iterateResults('spotify');
+    } else { console.log("There are no more results to show you!") };
   });
   // console.log("And your answers are:", answers);
 }
@@ -30,47 +35,49 @@ function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
     if (error) { console.log("There are no results to show you!") };
-    var venue = JSON.parse(body)[apiResult]['venue']['name'];
-    var location = JSON.parse(body)[apiResult]['venue']['city'];
-    var date = JSON.parse(body)[apiResult]['datetime'];
-    console.log('Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY"));
-    iterateResults('concerts');
+    if (JSON.parse(body)[apiResult] !== undefined) {
+      var venue = JSON.parse(body)[apiResult]['venue']['name'];
+      var location = JSON.parse(body)[apiResult]['venue']['city'];
+      var date = JSON.parse(body)[apiResult]['datetime'];
+      var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
+      console.log(concertLog);
+      fs.appendFile("log.txt", '\n=================\n' + concertLog, function (err) { });
+      iterateResults('concerts');
+    } else { console.log("There are no more results to show you!") };
   });
 }
 
 function movieSearch(searchTerm) {
   var queryUrl = "http://www.omdbapi.com/?t=" + searchTerm + "&y=&plot=short&apikey=trilogy";
-  console.log(queryUrl);
+  if (searchTerm === '') { queryUrl = "http://www.omdbapi.com/?t=Mr.+Nobody&y=&plot=short&apikey=trilogy" };
   request(queryUrl, function (error, response, body) {
     // If the request is successful
-    var movieInfo = '';
+    var movieLog = '';
     if (!error && response.statusCode === 200) {
       // Title of the movie.
-      movieInfo += JSON.parse(body).Title;
+      movieLog += JSON.parse(body).Title;
       // Year the movie came out.
-      movieInfo += "\n" + JSON.parse(body).Year
+      movieLog += "\n" + JSON.parse(body).Year
       // IMDB Rating of the movie.
-      movieInfo += "\nRated: " + JSON.parse(body).Rated
+      movieLog += "\nRated: " + JSON.parse(body).Rated
       // Rotten Tomatoes Rating of the movie.
       var ratings = JSON.parse(body).Ratings[1]['Value'];
-      movieInfo += "\nRotten Tomatoes: " + ratings;
+      movieLog += "\nRotten Tomatoes: " + ratings;
       // Country where the movie was produced.
-      movieInfo += "\nMade in: " + JSON.parse(body).Country
+      movieLog += "\nMade in: " + JSON.parse(body).Country
       // Language of the movie.
-      movieInfo += "\nLanguage: " + JSON.parse(body).Language
+      movieLog += "\nLanguage: " + JSON.parse(body).Language
       // Plot of the movie.
-      movieInfo += "\nPlot: " + JSON.parse(body).Plot
+      movieLog += "\nPlot: " + JSON.parse(body).Plot
       // Actors in the movie.
-      movieInfo += "\nStarring: " + JSON.parse(body).Actors
+      movieLog += "\nStarring: " + JSON.parse(body).Actors
       // console.log(ratings);
-      console.log(movieInfo);
+      console.log(movieLog);
     }
   });
 }
 
-function txtSearch(searchTerms) {
-
-}
+function txtSearch(searchTerms) {}
 
 // TAKE USER INPUTS
 // use Inquirer Package to offer list choices, send message, and then collect a string to search with
@@ -143,6 +150,4 @@ function iterateResults(searchFunction) {
   // ISSUES: 
   // DISPLAY CONCERT DATES IN A BETTER FORMAT
   // ALLOW ANOTHER INQUIRER TO SELECT NEW RESULTS - could I use api data to make a sleection list?
-  // RETURN ERROR MESSAGE IF ITERATOR RUNS OUT OF RESULTS TO DISPLAY
   // LOG SEARCHES TO A TXT
-  // 

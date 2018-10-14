@@ -1,0 +1,25 @@
+
+=================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+=================
+Venue: The Grand Theatre Center for the Arts
+City: Tracy
+Date: 11/02/18
+=================
+Venue: Prairie Band Casino & Resort: Great Lakes Ballroom
+City: Mayetta
+Date: 11/10/18
+=================
+Venue: Space Coast Harley-Davidson
+City: Palm Bay
+Date: 11/11/18
+=================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+=================
+Venue: Microsoft Theater
+City: Los Angeles
+Date: 12/08/18
