@@ -1,10 +1,11 @@
 // FILE REQUIRES
+var moment = require('moment');
 var dotenv = require('dotenv').config();
 var Spotify = require('node-spotify-api');
-var keys = require("./keys.js");
+var keys = require('./keys.js');
 var spotify = new Spotify(keys.spotify);
-var inquirer = require("inquirer");
-var request = require("request");
+var inquirer = require('inquirer');
+var request = require('request');
 var apiResult = 0;
 var searchFunction;
 var searchTerm;
@@ -19,7 +20,7 @@ function spotifySearch(searchTerm) {
     var artist = data.tracks.items[apiResult]['artists'][0]['name'];
     var fromAlbum = data.tracks.items[apiResult]['album']['name'];
     var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
-    console.log(songTitle + '\n' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
+    console.log('Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
     iterateResults('spotify');
   });
   // console.log("And your answers are:", answers);
@@ -28,10 +29,11 @@ function spotifySearch(searchTerm) {
 function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
+    if (error) { console.log("There are no results to show you!") };
     var venue = JSON.parse(body)[apiResult]['venue']['name'];
     var location = JSON.parse(body)[apiResult]['venue']['city'];
     var date = JSON.parse(body)[apiResult]['datetime'];
-    console.log('Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + date);
+    console.log('Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY"));
     iterateResults('concerts');
   });
 }
@@ -92,6 +94,7 @@ var loadAnotherResult = {
   message: "Load a different reult?"
 }
 
+// PRIMARY SEARCH PROMPT
 inquirer.prompt([
   searchFunction,
   searchTerm,
@@ -135,7 +138,7 @@ function iterateResults(searchFunction) {
       }
     }
   });
-  }
+}
 
   // ISSUES: 
   // DISPLAY CONCERT DATES IN A BETTER FORMAT
