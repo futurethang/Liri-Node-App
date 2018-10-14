@@ -12,10 +12,13 @@ function spotifySearch(searchTerm) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    var results = data.tracks.items;
-    console.log(results);
+    var songTitle = data.tracks.items[0]['name'];
+    var artist = data.tracks.items[0]['artists'][0]['name'];
+    var fromAlbum = data.tracks.items[0]['album']['name'];
+    var songPreview = data.tracks.items[0]['external_urls']['spotify'];
+    console.log(songTitle + '\n' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
   });
-  console.log("And your answers are:", answers);
+  // console.log("And your answers are:", answers);
 }
 
 function concertSearch(searchTerm) {
@@ -28,7 +31,6 @@ function concertSearch(searchTerm) {
   });
 }
 
-
 function movieSearch(searchTerm) {
   var queryUrl = "http://www.omdbapi.com/?t=" + searchTerm + "&y=&plot=short&apikey=trilogy";
   console.log(queryUrl);
@@ -36,8 +38,6 @@ function movieSearch(searchTerm) {
     // If the request is successful
     var movieInfo = '';
     if (!error && response.statusCode === 200) {
-      // console.log(JSON.parse(body));
-      // console.log("Release Year: " + JSON.parse(body));
       // Title of the movie.
       movieInfo += JSON.parse(body).Title;
       // Year the movie came out.
@@ -45,8 +45,8 @@ function movieSearch(searchTerm) {
       // IMDB Rating of the movie.
       movieInfo += "\nRated: " + JSON.parse(body).Rated
       // Rotten Tomatoes Rating of the movie.
-      var ratings = JSON.parse(body).Ratings[1];
-      movieInfo += "\nRotten Tomatoes: " + JSON.stringify(ratings["Value"]);
+      var ratings = JSON.parse(body).Ratings[1]['Value'];
+      movieInfo += "\nRotten Tomatoes: " + ratings;
       // Country where the movie was produced.
       movieInfo += "\nMade in: " + JSON.parse(body).Country
       // Language of the movie.
@@ -55,7 +55,7 @@ function movieSearch(searchTerm) {
       movieInfo += "\nPlot: " + JSON.parse(body).Plot
       // Actors in the movie.
       movieInfo += "\nStarring: " + JSON.parse(body).Actors
-
+      // console.log(ratings);
       console.log(movieInfo);
     }
   });
@@ -109,8 +109,6 @@ inquirer.prompt([
     default:
       break;
   }
-
-
   console.log(searchFunction + searchTerm);
 });
 
