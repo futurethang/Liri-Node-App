@@ -20,21 +20,14 @@ function spotifySearch(searchTerm) {
 
 function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
-  request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp"), function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
-    // if (error) { console.log("error") };
-    // // If the request is successful (i.e. if the response status code is 200)
-    // if (!error && response.statusCode === 200) {
-
-    //   // Parse the body of the site and recover just the imdbRating
-    //   // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-    //   console.log(body);
-    //   console.log(response);
-    // }
-  }
+  request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
+    var venue = JSON.parse(body)[0]['venue']['name'];
+    var location = JSON.parse(body)[0]['venue']['city'];
+    var date = JSON.parse(body)[0]['datetime'];
+    console.log('Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + date);
+  });
 }
+
 
 function movieSearch(searchTerm) {
   var queryUrl = "http://www.omdbapi.com/?t=" + searchTerm + "&y=&plot=short&apikey=trilogy";
@@ -48,20 +41,21 @@ function movieSearch(searchTerm) {
       // Title of the movie.
       movieInfo += JSON.parse(body).Title;
       // Year the movie came out.
-      movieInfo += "\n"+JSON.parse(body).Year
+      movieInfo += "\n" + JSON.parse(body).Year
       // IMDB Rating of the movie.
-      movieInfo += "\nRated: "+JSON.parse(body).Rated
+      movieInfo += "\nRated: " + JSON.parse(body).Rated
       // Rotten Tomatoes Rating of the movie.
-      movieInfo += "\nRotten Tomatoes: "+JSON.parse(body).Ratings[1][1]
+      var ratings = JSON.parse(body).Ratings[1];
+      movieInfo += "\nRotten Tomatoes: " + JSON.stringify(ratings["Value"]);
       // Country where the movie was produced.
-      movieInfo += "\nMade in: "+JSON.parse(body).Country
+      movieInfo += "\nMade in: " + JSON.parse(body).Country
       // Language of the movie.
-      movieInfo += "\nLanguage: "+JSON.parse(body).Language
+      movieInfo += "\nLanguage: " + JSON.parse(body).Language
       // Plot of the movie.
-      movieInfo += "\nPlot: "+JSON.parse(body).Plot
+      movieInfo += "\nPlot: " + JSON.parse(body).Plot
       // Actors in the movie.
       movieInfo += "\nStarring: " + JSON.parse(body).Actors
-      
+
       console.log(movieInfo);
     }
   });
@@ -119,3 +113,6 @@ inquirer.prompt([
 
   console.log(searchFunction + searchTerm);
 });
+
+  // ISSUES: 
+  // OMDB ROTTEN TOMATO RETURN. HOW TO ACCESS THAT KEY AND GIVE BACK STRING?
