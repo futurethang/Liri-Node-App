@@ -5,6 +5,9 @@ var keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 var inquirer = require("inquirer");
 var request = require("request");
+var apiResult = 0;
+var searchFunction;
+var searchTerm;
 
 // DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
 function spotifySearch(searchTerm) {
@@ -12,11 +15,12 @@ function spotifySearch(searchTerm) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    var songTitle = data.tracks.items[0]['name'];
-    var artist = data.tracks.items[0]['artists'][0]['name'];
-    var fromAlbum = data.tracks.items[0]['album']['name'];
-    var songPreview = data.tracks.items[0]['external_urls']['spotify'];
+    var songTitle = data.tracks.items[apiResult]['name'];
+    var artist = data.tracks.items[apiResult]['artists'][0]['name'];
+    var fromAlbum = data.tracks.items[apiResult]['album']['name'];
+    var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
     console.log(songTitle + '\n' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview);
+    iterateResults();
   });
   // console.log("And your answers are:", answers);
 }
@@ -75,20 +79,24 @@ var searchFunction = {
   choices: ['search concerts', 'spotify song search', 'search for movie', 'search from .txt']
 }
 
-var functionTitle = "placeholder";
-
 var searchTerm = {
   type: "input",
   name: "searchTerm",
   message: "What are you looking for?"
 }
 
+var loadAnotherResult = {
+  type: "confirm",
+  name: "loadAnotherResult",
+  message: "Load a different reult?"
+}
+
 inquirer.prompt([
   searchFunction,
   searchTerm,
 ]).then(function (data) {
-  var searchFunction = data.searchFunction;
-  var searchTerm = data.searchTerm
+  searchFunction = data.searchFunction;
+  searchTerm = data.searchTerm
 
   switch (searchFunction) {
     case 'spotify song search':
@@ -112,5 +120,19 @@ inquirer.prompt([
   console.log(searchFunction + searchTerm);
 });
 
+function iterateResults() {
+  inquirer.prompt([
+    loadAnotherResult
+  ]).then(function (data) {
+    if (data.loadAnotherResult) {
+      console.log("iterate fires");
+      apiResult += 1;
+      spotifySearch(searchTerm);
+    }
+  });
+  }
+
   // ISSUES: 
-  // OMDB ROTTEN TOMATO RETURN. HOW TO ACCESS THAT KEY AND GIVE BACK STRING?
+  // DISPLAY CONCERT DATES IN A BETTER FORMAT
+  // ALLOW ANOTHER INQUIRER TO SELECT NEW RESULTS - could I use api data to make a sleection list?
+  // LOG SEARCHES TO A TXT
