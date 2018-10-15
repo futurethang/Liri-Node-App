@@ -13,6 +13,26 @@ var searchTerm;
 var additionalResultsArray = [];
 
 // DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
+
+function songDetails(items, index) {
+  console.log("Song Details invoked");
+  // Get the song title:
+  var songTitle = items[index]['name'];
+  // Get the name of the Artist:
+  var artist = items[index]['artists'][0]['name'];
+  // Get the name of the Album:
+  var fromAlbum = items[index]['album']['name'];
+  // Get the link to the song preview:
+  var songPreview = items[index]['external_urls']['spotify'];
+  // Concatenate the data for log and display:
+  var songLog = '----------\nSong: ' + songTitle + '\nArtist: ' + artist +
+    '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview + 
+    '\n----------';
+  console.log(songLog);
+  updateLogFile(songLog);
+  chooseAnotherResult(items, 'spotify');
+}
+
 function spotifySearch(searchTerm) {
   spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
     var items = data.tracks.items;
@@ -20,20 +40,8 @@ function spotifySearch(searchTerm) {
       return console.log('Error occurred: ' + err);
     }
     if (items[index] !== undefined) {
-      // Get the song title:
-      var songTitle = items[index]['name'];
-      // Get the name of the Artist:
-      var artist = items[index]['artists'][0]['name'];
-      // Get the name of the Album:
-      var fromAlbum = items[index]['album']['name'];
-      // Get the link to the song preview:
-      var songPreview = items[index]['external_urls']['spotify'];
-      // Concatenate the data for log and display:
-      var songLog = 'Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview;
-      console.log(songLog);
-      updateLogFile(songLog);
+      songDetails(items, index);
       // iterateResults('spotify');
-      chooseAnotherResult(items, 'spotify');
     } else { console.log("There are no more results to show you!") };
   });
   // console.log("And your answers are:", answers);
@@ -48,7 +56,8 @@ function concertDetails(items, index) {
   // Get the Date of the concert:
   var date = items[index]['datetime'];
   // Concatenate the string for display and log.txt:
-  var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
+  var concertLog = '----------\nVenue: ' + venue + '\nCity: ' + location +
+    '\nDate: ' + moment(date).format("MM/DD/YY") + '\n----------'
   console.log(concertLog);
   updateLogFile(concertLog);
   chooseAnotherResult(items, 'concerts');
@@ -62,7 +71,6 @@ function concertSearch(searchTerm) {
     if (items[index] !== undefined) {
       concertDetails(items, index);
       // iterateResults('concerts');
-      chooseAnotherResult(items, 'concerts');
     } else { console.log("There are no more results to show you!") };
   });
 }
@@ -102,7 +110,7 @@ function txtSearch(searchTerms) { }
 
 function updateLogFile(logText) {
   var timeStamp = moment().format('MM/DD/YYYY - HH:mm:ss:SSS');
-  var logBody = '\n\n' + timeStamp + ' =================\n' + logText;
+  var logBody = '\n\n\n' + timeStamp + ' >>>>>>>>>>\n' + logText;
   fs.appendFile("log.txt", logBody, function (err) { });
 }
 
@@ -212,7 +220,7 @@ function chooseAnotherResult(items, source) {
     if (source === 'concerts') {
       concertDetails(items, index);
     } else if (source === 'spotify') {
-      
+      songDetails(items, index);
     }
   })
 }
