@@ -10,27 +10,30 @@ var request = require('request');
 var apiResult = 0;
 var searchFunction;
 var searchTerm;
+var additionalResultsArray = [];
 
 // DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
 function spotifySearch(searchTerm) {
   spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
+    var items = data.tracks.items;
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    if (data.tracks.items[apiResult] !== undefined) {
+    if (items[apiResult] !== undefined) {
       // Get the song title:
-      var songTitle = data.tracks.items[apiResult]['name'];
+      var songTitle = items[apiResult]['name'];
       // Get the name of the Artist:
-      var artist = data.tracks.items[apiResult]['artists'][0]['name'];
+      var artist = items[apiResult]['artists'][0]['name'];
       // Get the name of the Album:
-      var fromAlbum = data.tracks.items[apiResult]['album']['name'];
+      var fromAlbum = items[apiResult]['album']['name'];
       // Get the link to the song preview:
-      var songPreview = data.tracks.items[apiResult]['external_urls']['spotify'];
+      var songPreview = items[apiResult]['external_urls']['spotify'];
       // Concatenate the data for log and display:
       var songLog = 'Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview;
       console.log(songLog);
       updateLogFile(songLog);
-      iterateResults('spotify');
+      // iterateResults('spotify');
+      chooseAnotherResult(items, 'spotify');
     } else { console.log("There are no more results to show you!") };
   });
   // console.log("And your answers are:", answers);
@@ -39,19 +42,21 @@ function spotifySearch(searchTerm) {
 function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
+    var items = JSON.parse(body);
     if (error) { console.log("There are no results to show you!") };
-    if (JSON.parse(body)[apiResult] !== undefined) {
+    if (items[apiResult] !== undefined) {
       // Get the Venue Name:
-      var venue = JSON.parse(body)[apiResult]['venue']['name'];
+      var venue = items[apiResult]['venue']['name'];
       // Get the City Location:
-      var location = JSON.parse(body)[apiResult]['venue']['city'];
+      var location = items[apiResult]['venue']['city'];
       // Get the Date of the concert:
-      var date = JSON.parse(body)[apiResult]['datetime'];
+      var date = items[apiResult]['datetime'];
       // Concatenate the string for display and log.txt:
       var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
       console.log(concertLog);
       updateLogFile(concertLog);
       iterateResults('concerts');
+      chooseAnotherResult(items, 'concerts');
     } else { console.log("There are no more results to show you!") };
   });
 }
@@ -117,6 +122,13 @@ var loadAnotherResult = {
   message: "Load a different reult?"
 }
 
+var moreResults = {
+  type: "list",
+  name: "moreResults",
+  message: "Choose a different search result:",
+  choices: additionalResultsArray
+}
+
 // PRIMARY SEARCH PROMPT
 inquirer.prompt([
   searchFunction,
@@ -161,6 +173,33 @@ function iterateResults(searchFunction) {
       }
     }
   });
+}
+
+function chooseAnotherResult(data, source) {
+  data.slice(1,10).forEach(function (item) {
+    if (source === 'spotify') {
+      var title = item['name'];
+      var artist = item['artists'][0]['name'];
+      additionalResultsArray.push("By: " + artist + " - - " + "Song Name: " + title);
+    } else if (source === 'concerts') { 
+      var venue = item['venue']['name'];
+      // Get the City Location:
+      var location = item['venue']['city'];
+      // Get the Date of the concert:
+      var date = item['datetime'];
+      // Concatenate the string for display and log.txt:
+      var concertLog ='Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: ' + venue + ' -- City: ' + location;
+      additionalResultsArray.push(concertLog);
+    }
+    console.log(additionalResultsArray);
+    // push the title strings to the additionalResultsArray
+  });
+
+  inquirer.prompt([
+    moreResults
+  ]).then(function (data) {
+    console.log(data);
+  })
 }
 
   // ISSUES: 
