@@ -7,6 +7,8 @@ var keys = require('./keys.js');
 var spotify = new Spotify(keys.spotify);
 var inquirer = require('inquirer');
 var request = require('request');
+
+// APPLICATION VARIABLES
 var index = 0;
 var searchFunction;
 var searchTerm;
@@ -14,7 +16,7 @@ var additionalResultsArray = [];
 
 // DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
 
-function songDetails(items, index) {
+function songDetails(items, index) { // COMPILES DATA FROM THE SEARCH RESULTS TO DISPLAY INDIVIDUAL RESULTS
   console.log("Song Details invoked");
   var songTitle = items[index]['name']; // Get the song title:
   var artist = items[index]['artists'][0]['name']; // Get the name of the Artist:
@@ -28,20 +30,20 @@ function songDetails(items, index) {
   chooseAnotherResult(items, 'spotify');
 }
 
-function spotifySearch(searchTerm) {
+function spotifySearch(searchTerm) { //EXECUTES A NEW API SEARCH  
   spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
     var items = data.tracks.items;
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    if (items[index] !== undefined) {
+    if (items[index] !== undefined) { // !!! THIS CONDITIONAL IS NO LONGER NEEDED IF USING SONGDETAILS()
       songDetails(items, index);
       // iterateResults('spotify');
     } else { console.log("There are no more results to show you!") };
   });
 }
 
-function concertDetails(items, index) {
+function concertDetails(items, index) { // COMPILES DATA FROM THE SEARCH RESULTS TO DISPLAY INDIVIDUAL RESULTS
   console.log("concert Details invoked"); 
   var venue = items[index]['venue']['name']; // Get the Venue Name:
   var location = items[index]['venue']['city']; // Get the City Location:
@@ -53,12 +55,12 @@ function concertDetails(items, index) {
   chooseAnotherResult(items, 'concerts');
 }
 
-function concertSearch(searchTerm) {
+function concertSearch(searchTerm) { //EXECUTES A NEW API SEARCH 
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
     var items = JSON.parse(body);
     if (error) { console.log("There are no results to show you!") };
-    if (items[index] !== undefined) {
+    if (items[index] !== undefined) { // !!! THIS CONDITIONAL IS NO LONGER NEEDED IF USING CONCERTDETAILS()
       concertDetails(items, index);
       // iterateResults('concerts');
     } else { console.log("There are no more results to show you!") };
@@ -72,24 +74,15 @@ function movieSearch(searchTerm) {
     // If the request is successful
     var movieLog = '';
     if (!error && response.statusCode === 200) {
-      // Title of the movie.
-      movieLog += JSON.parse(body).Title;
-      // Year the movie came out.
-      movieLog += "\n" + JSON.parse(body).Year
-      // IMDB Rating of the movie.
-      movieLog += "\nRated: " + JSON.parse(body).Rated
-      // Rotten Tomatoes Rating of the movie.
-      var ratings = JSON.parse(body).Ratings[1]['Value'];
+      movieLog += JSON.parse(body).Title; // Title of the movie.
+      movieLog += "\n" + JSON.parse(body).Year      // Year the movie came out.
+      movieLog += "\nRated: " + JSON.parse(body).Rated      // IMDB Rating of the movie.
+      var ratings = JSON.parse(body).Ratings[1]['Value'];      // Rotten Tomatoes Rating of the movie.
       movieLog += "\nRotten Tomatoes: " + ratings;
-      // Country where the movie was produced.
-      movieLog += "\nMade in: " + JSON.parse(body).Country
-      // Language of the movie.
-      movieLog += "\nLanguage: " + JSON.parse(body).Language
-      // Plot of the movie.
-      movieLog += "\nPlot: " + JSON.parse(body).Plot
-      // Actors in the movie.
-      movieLog += "\nStarring: " + JSON.parse(body).Actors
-      // console.log(ratings);
+      movieLog += "\nMade in: " + JSON.parse(body).Country      // Country where the movie was produced.
+      movieLog += "\nLanguage: " + JSON.parse(body).Language      // Language of the movie.
+      movieLog += "\nPlot: " + JSON.parse(body).Plot      // Plot of the movie.
+      movieLog += "\nStarring: " + JSON.parse(body).Actors      // Actors in the movie.
       console.log(movieLog);
       updateLogFile(movieLog);
     }
@@ -133,7 +126,7 @@ var moreResults = {
   choices: additionalResultsArray
 }
 
-// PRIMARY SEARCH PROMPT
+// PRIMARY SEARCH PROMPT  !! SET UP AS FUNCTION TO INVOKE LATER AND ADD GLOBAL VARIABLE RESETS
 inquirer.prompt([
   searchFunction,
   searchTerm,
@@ -163,7 +156,7 @@ inquirer.prompt([
   console.log(searchFunction + searchTerm);
 });
 
-// FUNTION TO RETURN THE NEXT SET OF RESULTS FROM LISTED API RETURNS
+// FUNTION TO RETURN THE NEXT SET OF RESULTS FROM LISTED API RETURNS !!  DEFUNCT BUT PRESERVED
 function iterateResults(searchFunction) {
   inquirer.prompt([
     loadAnotherResult
@@ -180,17 +173,20 @@ function iterateResults(searchFunction) {
 }
 
 function chooseAnotherResult(items, source) {
-  items.slice(1,10).forEach(function (item) {
+  var firstInList = 1;
+  var lastInList = 10;
+  var indexCorrection = 1; // to adjust the index for an accurate search
+  items.slice(firstInList, lastInList).forEach(function (item, i) {
     // push the title strings to the additionalResultsArray | Not using details functions because formatting is for list display
     if (source === 'spotify') {
       var title = item['name'];
       var artist = item['artists'][0]['name'];
-      additionalResultsArray.push("By: " + artist + " - - " + "Song Name: " + title);
+      additionalResultsArray.push("#" + (i+indexCorrection) +  " By: " + artist + " - - " + "Song Name: " + title);
     } else if (source === 'concerts') { 
       var venue = item['venue']['name']; // Get the name of the venue
       var location = item['venue']['city']; // Get the City Location:
       var date = item['datetime']; // Get the Date of the concert:
-      var concertLog = 'Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: '
+      var concertLog = '#' + (i+indexCorrection) +  ' Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: '
         + venue + ' -- City: ' + location;  // Concatenate the string for display and log.txt:
       additionalResultsArray.push(concertLog);
     }
@@ -200,7 +196,6 @@ function chooseAnotherResult(items, source) {
     moreResults
   ]).then(function (data) {
     var choice = data['moreResults']; // grab just the string of the chosen option
-    var indexCorrection = 1; // to adjust the index for an accurate search
     index = additionalResultsArray.indexOf(choice) + indexCorrection;
     if (source === 'concerts') {
       concertDetails(items, index);
@@ -211,6 +206,6 @@ function chooseAnotherResult(items, source) {
 }
 
   // ISSUES: 
-  // DISPLAY CONCERT DATES IN A BETTER FORMAT
-  // ALLOW ANOTHER INQUIRER TO SELECT NEW RESULTS - could I use api data to make a sleection list?
-  // LOG SEARCHES TO A TXT
+  // CREATE SEARCH FROM RANDOM.TXT
+  // ADD EXIT OPTION FROM CHOOSING NEW REULTS >> NAVIGATE BACK TO ORIGINAL SEARCH WITHOUT EXITING PROGRAM > REQUIRES SOME VAR RESETS
+  // BONUS: "LOAD MORE RESULTS" THAT WILL SET A NEW SET OF 10 OPTIONS
