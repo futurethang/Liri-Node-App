@@ -7,7 +7,7 @@ var keys = require('./keys.js');
 var spotify = new Spotify(keys.spotify);
 var inquirer = require('inquirer');
 var request = require('request');
-var apiResult = 0;
+var index = 0;
 var searchFunction;
 var searchTerm;
 var additionalResultsArray = [];
@@ -19,15 +19,15 @@ function spotifySearch(searchTerm) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    if (items[apiResult] !== undefined) {
+    if (items[index] !== undefined) {
       // Get the song title:
-      var songTitle = items[apiResult]['name'];
+      var songTitle = items[index]['name'];
       // Get the name of the Artist:
-      var artist = items[apiResult]['artists'][0]['name'];
+      var artist = items[index]['artists'][0]['name'];
       // Get the name of the Album:
-      var fromAlbum = items[apiResult]['album']['name'];
+      var fromAlbum = items[index]['album']['name'];
       // Get the link to the song preview:
-      var songPreview = items[apiResult]['external_urls']['spotify'];
+      var songPreview = items[index]['external_urls']['spotify'];
       // Concatenate the data for log and display:
       var songLog = 'Song: ' + songTitle + '\nArtist: ' + artist + '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview;
       console.log(songLog);
@@ -39,23 +39,29 @@ function spotifySearch(searchTerm) {
   // console.log("And your answers are:", answers);
 }
 
+function concertDetails(items, index) {
+  console.log("concert Details invoked");
+  // Get the Venue Name:
+  var venue = items[index]['venue']['name'];
+  // Get the City Location:
+  var location = items[index]['venue']['city'];
+  // Get the Date of the concert:
+  var date = items[index]['datetime'];
+  // Concatenate the string for display and log.txt:
+  var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
+  console.log(concertLog);
+  updateLogFile(concertLog);
+  chooseAnotherResult(items, 'concerts');
+}
+
 function concertSearch(searchTerm) {
   console.log("concert search runs: " + searchTerm);
   request("https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp", function (error, response, body) {
     var items = JSON.parse(body);
     if (error) { console.log("There are no results to show you!") };
-    if (items[apiResult] !== undefined) {
-      // Get the Venue Name:
-      var venue = items[apiResult]['venue']['name'];
-      // Get the City Location:
-      var location = items[apiResult]['venue']['city'];
-      // Get the Date of the concert:
-      var date = items[apiResult]['datetime'];
-      // Concatenate the string for display and log.txt:
-      var concertLog = 'Venue: ' + venue + '\nCity: ' + location + '\nDate: ' + moment(date).format("MM/DD/YY")
-      console.log(concertLog);
-      updateLogFile(concertLog);
-      iterateResults('concerts');
+    if (items[index] !== undefined) {
+      concertDetails(items, index);
+      // iterateResults('concerts');
       chooseAnotherResult(items, 'concerts');
     } else { console.log("There are no more results to show you!") };
   });
@@ -165,7 +171,7 @@ function iterateResults(searchFunction) {
     loadAnotherResult
   ]).then(function (data) {
     if (data.loadAnotherResult) {
-      apiResult += 1;
+      index += 1;
       if (searchFunction === 'spotify') {
         spotifySearch(searchTerm);
       } else if (searchFunction === 'concerts') {
@@ -175,8 +181,9 @@ function iterateResults(searchFunction) {
   });
 }
 
-function chooseAnotherResult(data, source) {
-  data.slice(1,10).forEach(function (item) {
+function chooseAnotherResult(items, source) {
+  items.slice(1,10).forEach(function (item) {
+    // push the title strings to the additionalResultsArray
     if (source === 'spotify') {
       var title = item['name'];
       var artist = item['artists'][0]['name'];
@@ -191,14 +198,22 @@ function chooseAnotherResult(data, source) {
       var concertLog ='Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: ' + venue + ' -- City: ' + location;
       additionalResultsArray.push(concertLog);
     }
-    console.log(additionalResultsArray);
-    // push the title strings to the additionalResultsArray
   });
 
   inquirer.prompt([
     moreResults
   ]).then(function (data) {
-    console.log(data);
+    // console.log("data from insauirer choice: " + JSON.stringify(data));
+    var choice = data['moreResults'];
+    var indexCorrection = 1;
+    console.log("data from insauirer choice: " + choice);
+    index = additionalResultsArray.indexOf(choice) + indexCorrection;
+    console.log("index of choice: " + index);
+    if (source === 'concerts') {
+      concertDetails(items, index);
+    } else if (source === 'spotify') {
+      
+    }
   })
 }
 

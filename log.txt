@@ -277,3 +277,353 @@ Date: 11/16/18
 Venue: Microsoft Theater
 City: Los Angeles
 Date: 12/08/18
+
+10/14/2018 - 21:39:08:822 =================
+Venue: American Airlines Center
+City: Dallas
+Date: 10/15/18
+
+10/14/2018 - 21:46:59:333 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 21:47:57:535 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 21:48:38:061 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 21:50:23:395 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 21:51:47:414 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 21:59:42:574 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:01:40:049 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:01:42:053 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:02:44:940 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:02:55:106 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:02:55:116 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:03:02:743 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:03:02:746 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:04:32:179 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:04:42:442 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:04:42:454 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:05:01:759 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:05:01:763 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:05:25:818 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:06:10:450 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:06:15:689 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:06:15:699 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:08:37:518 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:08:39:924 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:08:39:935 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:26:818 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:28:633 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:28:638 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:34:022 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:34:035 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:35:950 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:17:35:954 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:22:787 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:25:322 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:25:332 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:59:066 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:59:638 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:18:59:647 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:02:588 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:02:591 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:04:252 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:04:255 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:07:261 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:19:07:271 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:20:01:215 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:20:02:339 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:20:02:342 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:21:00:291 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:21:49:508 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:21:51:635 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:21:51:645 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:22:02:378 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:22:02:382 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:22:08:585 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:22:08:596 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:23:49:978 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:23:56:483 =================
+Venue: Space Coast Harley-Davidson
+City: Palm Bay
+Date: 11/11/18
+
+10/14/2018 - 22:23:56:493 =================
+Venue: Space Coast Harley-Davidson
+City: Palm Bay
+Date: 11/11/18
+
+10/14/2018 - 22:24:11:200 =================
+Venue: Prairie Band Casino & Resort: Great Lakes Ballroom
+City: Mayetta
+Date: 11/10/18
+
+10/14/2018 - 22:24:11:204 =================
+Venue: Prairie Band Casino & Resort: Great Lakes Ballroom
+City: Mayetta
+Date: 11/10/18
+
+10/14/2018 - 22:25:12:226 =================
+Venue: Forest Hills Fine Arts Center
+City: Grand Rapids
+Date: 10/19/18
+
+10/14/2018 - 22:25:14:069 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:25:14:079 =================
+Venue: Apache Casino Hotel
+City: Lawton
+Date: 11/16/18
+
+10/14/2018 - 22:25:17:093 =================
+Venue: Microsoft Theater
+City: Los Angeles
+Date: 12/08/18
+
+10/14/2018 - 22:25:17:105 =================
+Venue: Microsoft Theater
+City: Los Angeles
+Date: 12/08/18
+
+10/14/2018 - 22:25:21:163 =================
+Venue: Microsoft Theater
+City: Los Angeles
+Date: 12/08/18
+
+10/14/2018 - 22:25:21:168 =================
+Venue: Microsoft Theater
+City: Los Angeles
+Date: 12/08/18
+
+10/14/2018 - 22:25:25:211 =================
+Venue: Prairie Band Casino & Resort: Great Lakes Ballroom
+City: Mayetta
+Date: 11/10/18
+
+10/14/2018 - 22:25:25:215 =================
+Venue: Prairie Band Casino & Resort: Great Lakes Ballroom
+City: Mayetta
+Date: 11/10/18
