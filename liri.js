@@ -16,18 +16,13 @@ var additionalResultsArray = [];
 
 function songDetails(items, index) {
   console.log("Song Details invoked");
-  // Get the song title:
-  var songTitle = items[index]['name'];
-  // Get the name of the Artist:
-  var artist = items[index]['artists'][0]['name'];
-  // Get the name of the Album:
-  var fromAlbum = items[index]['album']['name'];
-  // Get the link to the song preview:
-  var songPreview = items[index]['external_urls']['spotify'];
-  // Concatenate the data for log and display:
+  var songTitle = items[index]['name']; // Get the song title:
+  var artist = items[index]['artists'][0]['name']; // Get the name of the Artist:
+  var fromAlbum = items[index]['album']['name']; // Get the name of the Album:
+  var songPreview = items[index]['external_urls']['spotify']; // Get the link to the song preview:
   var songLog = '----------\nSong: ' + songTitle + '\nArtist: ' + artist +
     '\nFrom the Album: ' + fromAlbum + '\nPreview Track: ' + songPreview + 
-    '\n----------';
+    '\n----------';  // Concatenate the data for log and display:
   console.log(songLog);
   updateLogFile(songLog);
   chooseAnotherResult(items, 'spotify');
@@ -44,20 +39,15 @@ function spotifySearch(searchTerm) {
       // iterateResults('spotify');
     } else { console.log("There are no more results to show you!") };
   });
-  // console.log("And your answers are:", answers);
 }
 
 function concertDetails(items, index) {
-  console.log("concert Details invoked");
-  // Get the Venue Name:
-  var venue = items[index]['venue']['name'];
-  // Get the City Location:
-  var location = items[index]['venue']['city'];
-  // Get the Date of the concert:
-  var date = items[index]['datetime'];
-  // Concatenate the string for display and log.txt:
+  console.log("concert Details invoked"); 
+  var venue = items[index]['venue']['name']; // Get the Venue Name:
+  var location = items[index]['venue']['city']; // Get the City Location:
+  var date = items[index]['datetime']; // Get the Date of the concert:
   var concertLog = '----------\nVenue: ' + venue + '\nCity: ' + location +
-    '\nDate: ' + moment(date).format("MM/DD/YY") + '\n----------'
+    '\nDate: ' + moment(date).format("MM/DD/YY") + '\n----------'; // Concatenate the string for display and log.txt:
   console.log(concertLog);
   updateLogFile(concertLog);
   chooseAnotherResult(items, 'concerts');
@@ -191,19 +181,17 @@ function iterateResults(searchFunction) {
 
 function chooseAnotherResult(items, source) {
   items.slice(1,10).forEach(function (item) {
-    // push the title strings to the additionalResultsArray
+    // push the title strings to the additionalResultsArray | Not using details functions because formatting is for list display
     if (source === 'spotify') {
       var title = item['name'];
       var artist = item['artists'][0]['name'];
       additionalResultsArray.push("By: " + artist + " - - " + "Song Name: " + title);
     } else if (source === 'concerts') { 
-      var venue = item['venue']['name'];
-      // Get the City Location:
-      var location = item['venue']['city'];
-      // Get the Date of the concert:
-      var date = item['datetime'];
-      // Concatenate the string for display and log.txt:
-      var concertLog ='Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: ' + venue + ' -- City: ' + location;
+      var venue = item['venue']['name']; // Get the name of the venue
+      var location = item['venue']['city']; // Get the City Location:
+      var date = item['datetime']; // Get the Date of the concert:
+      var concertLog = 'Date: ' + moment(date).format("MM/DD/YY") + ' -- Venue: '
+        + venue + ' -- City: ' + location;  // Concatenate the string for display and log.txt:
       additionalResultsArray.push(concertLog);
     }
   });
@@ -211,12 +199,9 @@ function chooseAnotherResult(items, source) {
   inquirer.prompt([
     moreResults
   ]).then(function (data) {
-    // console.log("data from insauirer choice: " + JSON.stringify(data));
-    var choice = data['moreResults'];
-    var indexCorrection = 1;
-    console.log("data from insauirer choice: " + choice);
+    var choice = data['moreResults']; // grab just the string of the chosen option
+    var indexCorrection = 1; // to adjust the index for an accurate search
     index = additionalResultsArray.indexOf(choice) + indexCorrection;
-    console.log("index of choice: " + index);
     if (source === 'concerts') {
       concertDetails(items, index);
     } else if (source === 'spotify') {

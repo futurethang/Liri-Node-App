@@ -752,3 +752,62 @@ Venue: The Grand Theatre Center for the Arts
 City: Tracy
 Date: 11/02/18
 ----------
+
+
+10/14/2018 - 22:47:09:735 >>>>>>>>>>
+----------
+Venue: (Nov 17-18) Corona Capital
+City: Mexico City
+Date: 11/17/18
+----------
+
+
+10/14/2018 - 22:47:13:958 >>>>>>>>>>
+----------
+Venue: Verti Music Hall
+City: Berlin
+Date: 12/10/18
+----------
+
+
+10/14/2018 - 22:47:16:973 >>>>>>>>>>
+----------
+Venue: Palladium
+City: Koln
+Date: 12/11/18
+----------
+
+
+10/14/2018 - 22:47:18:812 >>>>>>>>>>
+----------
+Venue: Ziggo Dome
+City: Amsterdam
+Date: 12/08/18
+----------
+
+
+10/14/2018 - 22:47:37:562 >>>>>>>>>>
+----------
+Song: Fast Car
+Artist: Tracy Chapman
+From the Album: Tracy Chapman
+Preview Track: https://open.spotify.com/track/2M9ro2krNb7nr7HSprkEgo
+----------
+
+
+10/14/2018 - 22:47:41:255 >>>>>>>>>>
+----------
+Song: Fast In My Car
+Artist: Paramore
+From the Album: Paramore
+Preview Track: https://open.spotify.com/track/6r9cqn3KG824MXSo7sHPlK
+----------
+
+
+10/14/2018 - 22:47:45:477 >>>>>>>>>>
+----------
+Song: Fast Car
+Artist: CIRRRCLE
+From the Album: Fast Car
+Preview Track: https://open.spotify.com/track/25rRRLTzw1kTzuWMTKr5Ka
+----------
