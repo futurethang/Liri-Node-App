@@ -12,12 +12,11 @@ var request = require('request');
 var index = 0;
 var searchFunction;
 var searchTerm;
-var additionalResultsArray = [];
+var additionalResultsArray = [">> go back"];
 
 // DEFINE THE DIFFERENT API SEARCHES IN FUNCTIONS TO USE WITHIN A SWITCH STATMENT LATER
 
 function songDetails(items, index) { // COMPILES DATA FROM THE SEARCH RESULTS TO DISPLAY INDIVIDUAL RESULTS
-  console.log("Song Details invoked");
   var songTitle = items[index]['name']; // Get the song title:
   var artist = items[index]['artists'][0]['name']; // Get the name of the Artist:
   var fromAlbum = items[index]['album']['name']; // Get the name of the Album:
@@ -89,7 +88,12 @@ function movieSearch(searchTerm) {
   });
 }
 
-function txtSearch(searchTerms) { }
+function txtSearch() { 
+  fs.readFile("random.txt", "utf8", function (error, data) {
+    var arguments = data.split(",");
+    searchMethodSwitch(arguments[0], arguments[1])
+  })
+}
 
 function updateLogFile(logText) {
   var timeStamp = moment().format('MM/DD/YYYY - HH:mm:ss:SSS');
@@ -97,17 +101,39 @@ function updateLogFile(logText) {
   fs.appendFile("log.txt", logBody, function (err) { });
 }
 
+function searchMethodSwitch(searchFunction, searchTerm) {
+  switch (searchFunction) {
+    case 'spotify song search':
+      console.log("song: " + searchTerm)
+      spotifySearch(searchTerm);
+      break;
+    case 'search concerts':
+      console.log("artist: " + searchTerm)
+      concertSearch(searchTerm);
+      break;
+    case 'search for movie':
+      console.log("movie: " + searchTerm)
+      movieSearch(searchTerm);
+      break;
+    case 'search from .txt':
+      txtSearch();
+      break;
+    default:
+      break;
+  }
+}
+
 // TAKE USER INPUTS
 // use Inquirer Package to offer list choices, send message, and then collect a string to search with
 // https://github.com/sameeri/Code-Inquirer/wiki/Asking-questions-away-with-Inquirer!
-var searchFunction = {
+var searchInquiry = {
   type: "list",
   name: "searchFunction",
   message: "Choose a search function:",
   choices: ['search concerts', 'spotify song search', 'search for movie', 'search from .txt']
 }
 
-var searchTerm = {
+var searchInquiryTerm = {
   type: "input",
   name: "searchTerm",
   message: "What are you looking for?"
@@ -127,34 +153,20 @@ var moreResults = {
 }
 
 // PRIMARY SEARCH PROMPT  !! SET UP AS FUNCTION TO INVOKE LATER AND ADD GLOBAL VARIABLE RESETS
-inquirer.prompt([
-  searchFunction,
-  searchTerm,
-]).then(function (data) {
-  searchFunction = data.searchFunction;
-  searchTerm = data.searchTerm
 
-  switch (searchFunction) {
-    case 'spotify song search':
-      console.log("song: " + searchTerm)
-      spotifySearch(searchTerm);
-      break;
-    case 'search concerts':
-      console.log("artist: " + searchTerm)
-      concertSearch(searchTerm);
-      break;
-    case 'search for movie':
-      console.log("movie: " + searchTerm)
-      movieSearch(searchTerm);
-      break;
-    case 'search from .txt':
-      txtSearch(searchTerm);
-      break;
-    default:
-      break;
-  }
-  console.log(searchFunction + searchTerm);
-});
+function firstSearch() {
+  additionalResultsArray.splice(1);
+  inquirer.prompt([
+    searchInquiry,
+    searchInquiryTerm,
+  ]).then(function (data) {
+    console.log(data);
+    searchFunction = data.searchFunction;
+    searchTerm = data.searchTerm
+    searchMethodSwitch(searchFunction, searchTerm);  
+    console.log(searchFunction + searchTerm);
+  });
+}
 
 // FUNTION TO RETURN THE NEXT SET OF RESULTS FROM LISTED API RETURNS !!  DEFUNCT BUT PRESERVED
 function iterateResults(searchFunction) {
@@ -196,14 +208,20 @@ function chooseAnotherResult(items, source) {
     moreResults
   ]).then(function (data) {
     var choice = data['moreResults']; // grab just the string of the chosen option
-    index = additionalResultsArray.indexOf(choice) + indexCorrection;
-    if (source === 'concerts') {
-      concertDetails(items, index);
-    } else if (source === 'spotify') {
-      songDetails(items, index);
+    if (choice !== ">> go back") {
+      index = additionalResultsArray.indexOf(choice) + indexCorrection - 1;
+      if (source === 'concerts') {
+        concertDetails(items, index);
+      } else if (source === 'spotify') {
+        songDetails(items, index);
+      }
+    } else {
+      firstSearch();
     }
   })
 }
+
+firstSearch();
 
   // ISSUES: 
   // CREATE SEARCH FROM RANDOM.TXT
