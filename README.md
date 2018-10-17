@@ -1,6 +1,10 @@
 # Liri-Node-App
 A Language Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and gives you back data, using APIs for Spotify, OMDB, and Bandsintown.com.
 
+
+![liri demo 1](https://user-images.githubusercontent.com/17099707/47066640-9a14f180-d19b-11e8-9f31-0fbbc845295f.gif)
+
+
 ## Project Goals
 
 This project serves to build more experience building Node.JS applications that incorporate multiple packages and API calls. The interface ought to be easy to use and understand, and allow the user to search and browse search returns for the various API calls.
